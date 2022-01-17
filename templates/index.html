@@ -1,0 +1,37 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+    <link href='https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+</head>
+<body>
+<div class="grid" id="grid1">
+    <aside class="page-rightbar" id="rb1">
+        <div><button onclick="flush_ui()">Search</button></div>
+        <div id="morebutton"></div>
+        <div id="send"></div>
+        <div id="stats"></div>
+        A lot of code is taken from <a href="https://github.com/frto027/IsaacDisassemblyRate">this repository</a>
+    </aside>
+    <div class="page-main">
+        <h1>Tainted Cain Recipes</h1>
+        <input id="search" class="searchbar"></input>
+
+        <div id="output">
+            <img id="view-0" class="bofsym_0" />
+            <img id="view-1" class="bofsym_0" />
+            <img id="view-2" class="bofsym_0" />
+            <img id="view-3" class="bofsym_0" />
+            <img id="view-4" class="bofsym_0" />
+            <img id="view-5" class="bofsym_0" />
+            <img id="view-6" class="bofsym_0" />
+            <img id="view-7" class="bofsym_0" />
+        </div>
+    </div>
+
+</div></body>
+<!--<script src="{{url_for('static', filename='run_worker.js')}}"></script>-->
+<script src="{{url_for('static', filename='app.js')}}"></script>
+<!--<script src="../static/app.js"></script>-->
+</html>
