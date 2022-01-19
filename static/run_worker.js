@@ -2140,24 +2140,24 @@ for (const [key,value] of Object.entries(chances)) {
 }
 let found = 0
 let max = 0
-let tries = 0;
-unexisting = [666, 662, 648, 630, 620, 613, 587, 18, 130, 207, 119, 474, 550, 158, 668, 633, 293, 429, 715, 135, 238, 239, 626, 627, 132, 552, 714, 673, 9, 50, 328, 327, 90, 484, 181]
-onmessage = function(e) {
-    currentPoolx = getRandomPool(8)
-    max += e.data[0]
-    seed = e.data[2]
-    crafts = e.data[3]
-    function x() {
-    currentPool = currentPoolx.next().value
+let tries = 0
+let currentPoolx = getRandomPool(8)
+let seed = '';
+let crafts;
+let id1;
+let unexisting = [666, 662, 648, 630, 620, 613, 587, 18, 130, 207, 119, 474, 550, 158, 668, 633, 293, 429, 715, 135, 238, 239, 626, 627, 132, 552, 714, 673, 9, 50, 328, 327, 90, 484, 181]
+
+function x() {
+    let currentPool = currentPoolx.next().value
     //console.log(currentPool);
     let id = get_result(currentPool, str2seed(seed))
     tries += 1
     postMessage(["all", 1])
-    if (unexisting.includes(id) || crafts[id].length >= 4) {
+    if (unexisting.includes(id) || crafts[id].length >= 10) {
         return
     }
     if (!crafts[id].includes(currentPool)) {
-        if (crafts[id].length >= 4) {
+        if (crafts[id].length >= 10) {
             return
         }
         postMessage(1)
@@ -2165,11 +2165,22 @@ onmessage = function(e) {
         //if (tries > max) {
         //    self.clearInterval(id1)
         //    postMessage("end")
-       // }
+        // }
         postMessage(["item", id, currentPool])
         crafts[id].push(currentPool)
-    }}
-    let id1 = setInterval(x, 0.5)
+    }
+}
+
+onmessage = function(e) {
+    if(e.data[0] == 'pause') {
+        clearInterval(id1);
+        return;
+    }
+    
+    max += e.data[0]
+    seed = e.data[2]
+    crafts = e.data[3]
+    id1 = setInterval(x, 0.5)
 
     /*if (tries >= tries_limit || done(crafts, 4)) {
         if (done(crafts, 4)) {
