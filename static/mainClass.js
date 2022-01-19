@@ -80,7 +80,7 @@ export class App
     #deleteNotExistingRecipes()
     {
         // recipes that don't exist or ids are not present in the game
-        this.unexisting = [73, 550, 551718, 666, 662, 648, 630, 620, 613, 587, 18, 130, 207, 119, 474, 550, 158, 668, 633, 293, 429, 715, 135, 238, 239, 626, 627, 132, 552, 714, 673, 9, 50, 328, 327, 90, 484, 181]
+        this.unexisting = [73, 551, 718, 666, 662, 648, 630, 620, 613, 587, 18, 130, 207, 119, 474, 550, 158, 668, 633, 293, 429, 715, 135, 238, 239, 626, 627, 132, 552, 714, 673, 9, 50, 328, 327, 90, 484, 181]
         for (let x of this.unexisting) {
             delete this.crafts[x]
         }
