@@ -14,8 +14,7 @@
     <title>Tainted Cain Explorer</title>
 </head>
 <body>
-<div class="grid" id="grid1">
-    <div style="position: fixed; top: 0; right: 0; padding: 5px; width: 200px; background-color: #e44d4d;">
+    <div class="corner-div corner-additional">
         <div>
             <button id="pause">Pause</button>
             <button id="resume">Resume</button>
@@ -27,11 +26,6 @@
     </div>
     <div class="page-main">
         <h1>Tainted Cain Recipes</h1>
-        <p class="note">
-            <b>NOTE!</b><br>
-            The number of recipes is limited to 10 per item for efficiency reasons.<br>
-            Remember that each item has a lot more recipes. If you want to find another <span onclick="refreshPage()" class="clickable">refresh page</span>
-        </p>
         <input id="search" class="searchbar" placeholder="Insert item name or id...">
 
         <div id="output">
@@ -43,8 +37,6 @@
             </div>
         </div>
     </div>
-
-</div>
 </body>
 <script type="module" src="{{url_for('static', filename='app.js')}}"></script>
 </html>

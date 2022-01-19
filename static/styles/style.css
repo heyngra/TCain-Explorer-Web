@@ -6,6 +6,27 @@ body {
 a {
     color:rgb(44, 99, 202);
 }
+#error {
+    padding-top: 5px;
+    font-size: 18px;
+}
+.corner-div {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 5px;
+}
+.corner-img {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    transform: scale(4);
+    image-rendering: pixelated;
+}
+.corner-additional {
+    width: 200px;
+    background-color: #e44d4d;
+}
 .bofsym{
     transform: scale(2);
     margin: 8px;
@@ -17,9 +38,6 @@ a {
 }
 .recipe {
     margin-bottom: 40px;
-}
-.note {
-    font-size: 20px;
 }
 .clickable {
     color: rgb(44, 99, 202);
@@ -211,12 +229,11 @@ a {
     display: none;
     position: fixed;
     top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 30px;
     margin: auto;
 }
 .modal-container {
-    width: 568px;
+    width: 400px;
     padding: 5px 10px;
     background-color: #404040;
     box-shadow: 0 5px 30px rgb(0 0 0 / 20%);

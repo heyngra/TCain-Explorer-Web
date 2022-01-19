@@ -1,3 +1,5 @@
+import { generate_random_string, showModalError, showModalSuccess } from './functions.js';
+
 export class App
 {
     crafts = {};
@@ -139,40 +141,4 @@ export class App
     {
         this.stats.innerHTML = "Checked " + this.alltries + " recipes<br>Found " + this.found_recipes + " correct recipes";
     }
-}
-
-function generate_random_string(len) {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (var i = 0; i < len; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-}
-
-function hideModal() {
-    $('#modal').animate({
-        opacity: 0
-    }, 1000, function(){
-        let modal = document.getElementById('modal');
-        modal.style.display = 'none';
-        modal.style.opacity = 1;
-    });
-    
-}
-
-export function showModalError(msg) {
-    let modal = document.getElementById('modal');
-    modal.children[0].children[0].className = 'text-error';
-    modal.children[0].children[0].innerHTML = msg;
-    modal.style.display = 'block';
-    setTimeout(hideModal, 3000);
-}
-
-export function showModalSuccess(msg) {
-    let modal = document.getElementById('modal');
-    modal.children[0].children[0].className = 'text-success';
-    modal.children[0].children[0].innerHTML = msg;
-    modal.style.display = 'block';
-    setTimeout(hideModal, 3000);
 }

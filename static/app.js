@@ -1,9 +1,9 @@
-import { item_id_to_name } from './items.js';
-import { App, showModalError, showModalSuccess } from './mainClass.js';
-
 // okay there ends some nerd stuff and now there's my code (and my), at least at some point
+import { App } from './mainClass.js';
+import { item_id_to_name } from './items.js';
+import { showModalError, showModalSuccess, swap } from './functions.js';
 
-// Start searching for items
+// Load some stuff and start searching for items
 var app = new App();
 app.startWorker();
 
@@ -32,61 +32,10 @@ function resumeWorker() {
     app.resumeWorker();
 }
 
-function swap(json) {
-    var ret = {};
-    for(var key in json){
-      ret[json[key]] = key;
-    }
-    return ret;
-}
-
-// Idk why this function is here but why not
-function run(tries_limit, no_popup=false) {
-    let tries = 0;
-    let currentPool = [];
-    while (true) {
-        currentPool = combs1.next().value
-        if (added.includes(currentPool)) {
-            continue
-        }
-        let id = get_result(currentPool, str2seed(seed))
-        tries += 1
-        alltries += 1 
-        if (app.unexisting.includes(id) || crafts[id].length >= 4) {
-            added.push(currentPool)
-            continue
-        }
-        if (!crafts[id].includes(currentPool)) {
-            if (crafts[id].length >= 4) {
-                added.push(currentPool)
-                continue
-            }
-            if (tries_limit != default_tries) {additional +=1}
-            found_recipes += 1
-            crafts[id].push(currentPool)
-        }
-        added.push(currentPool)
-        if (tries >= tries_limit || done(crafts, 4)) {
-            if (done(crafts, 4)) {
-                window.alert("Done!")
-            }
-            else if (tries_limit != default_tries) {
-                additional = 0;
-            }
-            else if (tries >= tries_limit) {
-                let x = document.getElementById("morebutton")
-                x.innerHTML = "<button onclick=\"run(10000)\">Check more recipes</button>"
-            }
-            flush_ui()
-            break
-        }
-    }
-}
-
 /**
  * Outputs items that has ID or name that includes value in searchbar
  * 
- * @param {*} showAll if true, shows all items regardles of what is in searchbar
+ * @param {boolean} showAll if true, shows all items regardles of what is in searchbar
  */
 function flush_ui(showAll = false){
     let divbox = document.getElementById("output")
