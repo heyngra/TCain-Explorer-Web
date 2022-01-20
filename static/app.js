@@ -1,9 +1,9 @@
 // okay there ends some nerd stuff and now there's my code (and my), at least at some point
 import { App } from './mainClass.js';
 import { item_id_to_name } from './items.js';
-import { showModalError, showModalSuccess, swap } from './functions.js';
+import { showModalError, showModalSuccess, swap, removeEveryNotFirstChildOfElement, insertInfoAfterElement } from './functions.js';
 
-// Load some stuff and start searching for items
+// Load some stuff and start searching for recipes
 var app = new App();
 app.startWorker();
 
@@ -14,15 +14,17 @@ window.onload = flush_ui(true);
 $("#search").on("keyup", function() {
     flush_ui();
 });
-$("#send").on('click', send);
+$("#send").on('click', send).hide();
 $("#pause").on('click', pauseWorker);
-$('#resume').on('click', resumeWorker);
+$('#resume').on('click', resumeWorker).hide();
 
 /**
  * Pause searching
  */
 function pauseWorker() {
     app.pauseWorker();
+    $('#pause').hide();
+    $('#resume').show();
 }
 
 /**
@@ -30,12 +32,14 @@ function pauseWorker() {
  */
 function resumeWorker() {
     app.resumeWorker();
+    $('#resume').hide();
+    $('#pause').show();
 }
 
 /**
- * Outputs items that has ID or name that includes value in searchbar
+ * Outputs items that have ID or name that includes value in searchbar
  * 
- * @param {boolean} showAll if true, shows all items regardles of what is in searchbar
+ * @param {Boolean} showAll if true, shows all items regardles of what is in searchbar
  */
 function flush_ui(showAll = false){
     let divbox = document.getElementById("output")
@@ -95,29 +99,19 @@ function send() {
 /**
  * Outputs all found recipies by id in event target
  * 
- * @param {Event} event event handler
+ * @param {PointerEvent} event event handler
  */
 function getRecipes(event) {
     event.target.innerHTML = '(Refresh)';
-    let header = event.path[1];
-    const parentDiv = event.path[2];
-    while (parentDiv.childElementCount != 1) {
-        parentDiv.removeChild(parentDiv.lastChild);
-    }
+    removeEveryNotFirstChildOfElement(event.path[2]);
 
+    let header = event.path[1];
     let itemId = event.target.id;
-    const found = app.unexisting.find(el => el == itemId);
-    if(found) {
-        let error = document.createElement('h3');
-        error.innerHTML = 'This item has no recipes';
-        header.parentNode.insertBefore(error, header.nextSibling);
-    }
-    else if (app.crafts[itemId].length == 0) {
-        let error = document.createElement('h3');
-        error.innerHTML = 'No recipes found';
-        header.parentNode.insertBefore(error, header.nextSibling);
-    }
-    else {
+    if(app.unexisting.includes(parseInt(itemId))) {
+        insertInfoAfterElement('This item has no recipes', header);
+    } else if (app.crafts[itemId].length == 0) {
+        insertInfoAfterElement('No recipes found', header);
+    } else {
         for (let _=0; _<app.crafts[itemId].length; _++) {
             let div = document.createElement('div');
             div.classList.add('recipe');
@@ -131,6 +125,54 @@ function getRecipes(event) {
     }
 }
 
+/*
+function run(tries_limit, no_popup=false) {
+    let tries = 0;
+    let currentPool = []
+    while (true) {
+        currentPool = combs1.next().value
+        if (added.includes(currentPool)) {
+            continue
+        }
+        //console.log(currentPool);
+        let id = get_result(currentPool, str2seed(seed))
+        tries += 1
+        alltries += 1 
+        if (unexisting.includes(id) || crafts[id].length >= 4) {
+            added.push(currentPool)
+            continue
+        }
+        if (!crafts[id].includes(currentPool)) {
+            if (crafts[id].length >= 4) {
+                added.push(currentPool)
+                continue
+            }
+            if (tries_limit != default_tries) {additional +=1}
+            found_recipes += 1
+            crafts[id].push(currentPool)
+        }
+        added.push(currentPool)
+        if (tries >= tries_limit || done(crafts, 4)) {
+            if (done(crafts, 4)) {
+                window.alert("Done!")
+            }
+            else if (tries_limit != default_tries) {
+                //if (no_popup){window.alert("Found " + additional + " additional combinations")}
+                additional = 0;
+            }
+            else if (tries >= tries_limit) {
+                let x = document.getElementById("morebutton")
+                x.innerHTML = "<button onclick=\"run(10000)\">Check more recipes</button>"
+            }
+            //console.log(crafts)
+            setInterval(constant_run, 5);
+            first_time = true;
+            flush_ui(false)
+            break
+        }
+    }
+}
+*/
 //TODO:
 // - enable all items, but that's kinda pointless
 // - make better algorithm for finding recipes

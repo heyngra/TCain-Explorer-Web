@@ -6,9 +6,6 @@ export class App
     button = true;
     found_recipes = 0;
     alltries = 0;
-    default_tries = 250000
-    additional = 0
-    added = [];
     all_recipes = [];
 
     constructor()
@@ -98,17 +95,13 @@ export class App
     {
         let started = false;
         this.worker.onmessage = event => {
-            if (event.data == "1") {
-                if (this.found_recipes >= 1999 && !started && this.button) {
-                    let y = document.getElementById("send")
-                    y.innerHTML = '<button id="send">Send recipes to server</button>'
-                    document.getElementById('send').addEventListener('click', send);
-                    started = true;
-                }
+            if (this.found_recipes >= 1999 && !started && this.button) {
+                $('#send').show();
+                started = true;
             }
-            else if (typeof(event.data) == "object" && event.data[0] == "all") {
-                this.alltries += 1
-            } else if (typeof(event.data) == "object" && event.data[0] == "item" && this.crafts[event.data[1]].length < 10) {
+            this.alltries += 1;
+
+            if(event.data[0] == 'found') {
                 this.crafts[event.data[1]].push(event.data[2])
                 this.all_recipes.push(event.data[2])
                 this.found_recipes += 1

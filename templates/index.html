@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="icon" href="{{ url_for('static',filename='tCainLike.png') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -14,13 +15,15 @@
     <title>Tainted Cain Explorer</title>
 </head>
 <body>
-    <div class="corner-div corner-additional">
+    <div class="corner-div">
         <div>
             <button id="pause">Pause</button>
             <button id="resume">Resume</button>
         </div>
         <div id="morebutton"></div>
-        <div id="send"></div>
+        <div id="send">
+            <button id="send">Send recipes to server</button>
+        </div>
         <div id="stats"></div>
         A lot of code is taken from <a href="https://github.com/frto027/IsaacDisassemblyRate" target="_blank">this repository</a>
     </div>

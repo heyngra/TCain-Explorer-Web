@@ -3,8 +3,8 @@
 /**
  * Generates random string
  * 
- * @param {number} len length of string
- * @returns {string}
+ * @param {Number} len length of string
+ * @returns {String}
  */
 export function generate_random_string(len) {
     var text = "";
@@ -18,7 +18,7 @@ export function generate_random_string(len) {
 /**
  * Shows error modal with custom message that disappears after 3s
  * 
- * @param {string} msg custom message
+ * @param {String} msg custom message
  */
 export function showModalError(msg) {
     let modal = document.getElementById('modal');
@@ -31,7 +31,7 @@ export function showModalError(msg) {
 /**
  * Shows success modal with custom message that disappears after 3s
  * 
- * @param {string} msg custom message
+ * @param {String} msg custom message
  */
 export function showModalSuccess(msg) {
     let modal = document.getElementById('modal');
@@ -57,8 +57,8 @@ export function hideModal() {
 /**
  * Swaps keys with values in array
  * 
- * @param {Array} json 
- * @returns {Array}
+ * @param {Object} json 
+ * @returns {Object}
  */
 export function swap(json) {
     var ret = {};
@@ -66,4 +66,25 @@ export function swap(json) {
       ret[json[key]] = key;
     }
     return ret;
+}
+
+/**
+ * Removes all children of the HTML element except first
+ * @param {HTMLElement} element parent element
+ */
+export function removeEveryNotFirstChildOfElement(element) {
+    while (element.childElementCount != 1) {
+        element.removeChild(element.lastChild);
+    }
+}
+
+/**
+ * Inserts <h3> with info message after HTML element
+ * @param {String} msg info message
+ * @param {HTMLElement} element HTML element
+ */
+export function insertInfoAfterElement(msg, element) {
+    let info = document.createElement('h3');
+    info.innerHTML = msg;
+    element.parentNode.insertBefore(info, element.nextSibling);
 }

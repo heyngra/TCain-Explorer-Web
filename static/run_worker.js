@@ -2058,10 +2058,10 @@ function get_result(input_array, gameStartSeed){
 }
 function removeAllInstances(arr, item) {
     for (var i = arr.length; i--;) {
-      if (arr[i] === item) arr.splice(i, 1);
+        if (arr[i] === item) arr.splice(i, 1);
     }
- }
-added = []
+}
+let added = []
 function* getRandomPool(n) {
     while (true) {
         pos_opt = possible_options.slice()
@@ -2085,32 +2085,32 @@ function* getRandomPool(n) {
 }
 const combs = function*(elements, length) {
     for (let i = 0; i < elements.length; i++) {
-      if (length === 1) {
-        yield [elements[i]];
-      } else {
-        let remaining = combs(elements.slice(i + 1, elements.length), length - 1);
-        for (let next of remaining) {
-          yield [elements[i], ...next];
+        if (length === 1) {
+            yield [elements[i]];
+        } else {
+            let remaining = combs(elements.slice(i + 1, elements.length), length - 1);
+            for (let next of remaining) {
+                yield [elements[i], ...next];
+            }
         }
-      }
     };
-  }
-function* generateCombinations(arr, size) {
-function* doGenerateCombinations(offset, combo) {
-    if (combo.length == size) {
-    yield combo;
-    } else {
-    for (let i = offset; i < arr.length; i++) {
-        yield* doGenerateCombinations(i + 1, combo.concat(arr[i]));
-    }
-    }
 }
-yield* doGenerateCombinations(0, []);
+function* generateCombinations(arr, size) {
+    function* doGenerateCombinations(offset, combo) {
+        if (combo.length == size) {
+            yield combo;
+        } else {
+            for (let i = offset; i < arr.length; i++) {
+                yield* doGenerateCombinations(i + 1, combo.concat(arr[i]));
+            }
+        }
+    }
+    yield* doGenerateCombinations(0, []);
 }
 
 //let possible_options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 21, 22, 23, ] // removed 24, 25, giga items: 17, 20
 let possible_options = []
-chances = {
+let chances = {
     1: 4, // red heart
     2: 2, // soul heart
     3: 2, // black heart
@@ -2149,25 +2149,15 @@ let unexisting = [666, 662, 648, 630, 620, 613, 587, 18, 130, 207, 119, 474, 550
 
 function x() {
     let currentPool = currentPoolx.next().value
-    //console.log(currentPool);
     let id = get_result(currentPool, str2seed(seed))
     tries += 1
-    postMessage(["all", 1])
-    if (unexisting.includes(id) || crafts[id].length >= 10) {
-        return
-    }
-    if (!crafts[id].includes(currentPool)) {
-        if (crafts[id].length >= 10) {
-            return
-        }
-        postMessage(1)
+    if (unexisting.includes(id) || crafts[id].length >= 10 || crafts[id].includes(currentPool)) {
+        postMessage(['not_found'])
+    } else {
         found += 1
-        //if (tries > max) {
-        //    self.clearInterval(id1)
-        //    postMessage("end")
-        // }
-        postMessage(["item", id, currentPool])
+        postMessage(["found", id, currentPool])
         crafts[id].push(currentPool)
+        added.push(currentPool)
     }
 }
 
