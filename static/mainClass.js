@@ -7,6 +7,7 @@ export class App
     found_recipes = 0;
     alltries = 0;
     all_recipes = [];
+    worker_running = false;
 
     constructor()
     {
@@ -109,14 +110,19 @@ export class App
             this.#updateCounter();
         }
         this.worker.postMessage([4000, true, this.seed, this.crafts])
+        this.worker_running = true;
     }
 
     pauseWorker() {
         this.worker.postMessage(['pause']);
+        this.worker_running = false;
     }
 
     resumeWorker() {
-        this.worker.postMessage([4000, true, this.seed, this.crafts]);
+        if(this.worker_running == false) {
+            this.worker.postMessage([4000, true, this.seed, this.crafts]);
+            this.worker_running = true;
+        }
     }
 
     // function from https://stackoverflow.com/questions/5448545/how-to-retrieve-get-parameters-from-javascript
