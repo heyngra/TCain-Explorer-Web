@@ -1,22 +1,31 @@
+<!DOCTYPE html>
 <html>
 <head>
+    <link rel="icon" href="{{ url_for('static',filename='tCainLike.png') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
-
+    <link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <title>Tainted Cain Explorer</title>
 </head>
 <body>
-    <div class="grid">
-        <div class="page-main">
-            <h1>Welcome to Tainted Cain Explorer</h1><br>
-            <h2>This site allows you to get Bag of Crafting recipes.<br>
-                If you want to search for recipes more efficently, check <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2721985684">this</a> mod.</br>
-                If you don't want to use it, then fill the data below!</br>
-            </h2><h3>Seed</h3>
-            <input type="text" id="seed" required maxlength="8"></br>
-            <h3>Is Coop?</h3><input type="checkbox" id="coop"><br><br>
-            <button onclick="send();">Search!</button>
-        </div>
-        <div class="bot"><h2>Contribue to this site on <a href="https://github.com/heyngra/TCain-Explorer-web">GitHub</a></h2></div>
+    <div class="page-main">
+            <img src="{{ url_for('static',filename='tCainLike.png') }}" class="corner-img">
+        <h1>Welcome to Tainted Cain Explorer</h1><br>
+        <h2>This site allows you to get Bag of Crafting recipes.<br>
+            If you want to search for recipes more efficently, check <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2721985684">this</a> mod.<br>
+            If you don't want to use it, then fill the data below!<br>
+        </h2>
+        <form id="seedForm" method="get" action="{{ url_for('hello_world', filename='index.html') }}">
+            <h3>Seed</h3>
+            <input type="text" id="seed" name="seed" required maxlength="8"><br>
+            <div id="error" class="text-error"></div>
+            <h3>Is Coop?</h3>
+            <input type="checkbox" name="coop"><br><br>
+            <button type="submit">Search!</button>
+        </form>
+    </div>
+    <div class="bot">
+        <h2>Contribue to this site on <a href="https://github.com/heyngra/TCain-Explorer-web" target="_blank">GitHub</a></h2>
     </div>
 </body>
-<script src="{{url_for('static', filename='put.js')}}"></script>
+<script type="module" src="{{url_for('static', filename='put.js')}}"></script>
 </html>

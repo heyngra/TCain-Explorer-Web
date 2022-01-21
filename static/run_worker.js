@@ -2058,10 +2058,10 @@ function get_result(input_array, gameStartSeed){
 }
 function removeAllInstances(arr, item) {
     for (var i = arr.length; i--;) {
-      if (arr[i] === item) arr.splice(i, 1);
+        if (arr[i] === item) arr.splice(i, 1);
     }
- }
-added = []
+}
+let added = []
 function* getRandomPool(n) {
     while (true) {
         pos_opt = possible_options.slice()
@@ -2085,32 +2085,32 @@ function* getRandomPool(n) {
 }
 const combs = function*(elements, length) {
     for (let i = 0; i < elements.length; i++) {
-      if (length === 1) {
-        yield [elements[i]];
-      } else {
-        let remaining = combs(elements.slice(i + 1, elements.length), length - 1);
-        for (let next of remaining) {
-          yield [elements[i], ...next];
+        if (length === 1) {
+            yield [elements[i]];
+        } else {
+            let remaining = combs(elements.slice(i + 1, elements.length), length - 1);
+            for (let next of remaining) {
+                yield [elements[i], ...next];
+            }
         }
-      }
     };
-  }
-function* generateCombinations(arr, size) {
-function* doGenerateCombinations(offset, combo) {
-    if (combo.length == size) {
-    yield combo;
-    } else {
-    for (let i = offset; i < arr.length; i++) {
-        yield* doGenerateCombinations(i + 1, combo.concat(arr[i]));
-    }
-    }
 }
-yield* doGenerateCombinations(0, []);
+function* generateCombinations(arr, size) {
+    function* doGenerateCombinations(offset, combo) {
+        if (combo.length == size) {
+            yield combo;
+        } else {
+            for (let i = offset; i < arr.length; i++) {
+                yield* doGenerateCombinations(i + 1, combo.concat(arr[i]));
+            }
+        }
+    }
+    yield* doGenerateCombinations(0, []);
 }
 
 //let possible_options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 21, 22, 23, ] // removed 24, 25, giga items: 17, 20
 let possible_options = []
-chances = {
+let chances = {
     1: 4, // red heart
     2: 2, // soul heart
     3: 2, // black heart
@@ -2140,36 +2140,37 @@ for (const [key,value] of Object.entries(chances)) {
 }
 let found = 0
 let max = 0
-let tries = 0;
-unexisting = [666, 662, 648, 630, 620, 613, 587, 18, 130, 207, 119, 474, 550, 158, 668, 633, 293, 429, 715, 135, 238, 239, 626, 627, 132, 552, 714, 673, 9, 50, 328, 327, 90, 484, 181]
+let tries = 0
+let currentPoolx = getRandomPool(8)
+let seed = '';
+let crafts;
+let id1;
+let unexisting = [666, 662, 648, 630, 620, 613, 587, 18, 130, 207, 119, 474, 550, 158, 668, 633, 293, 429, 715, 135, 238, 239, 626, 627, 132, 552, 714, 673, 9, 50, 328, 327, 90, 484, 181]
+
+function x() {
+    let currentPool = currentPoolx.next().value
+    let id = get_result(currentPool, str2seed(seed))
+    tries += 1
+    if (unexisting.includes(id) || crafts[id] == undefined || crafts[id].length >= 10 || crafts[id].includes(currentPool)) {
+        postMessage(['not_found'])
+    } else {
+        found += 1
+        postMessage(["found", id, currentPool])
+        crafts[id].push(currentPool)
+        added.push(currentPool)
+    }
+}
+
 onmessage = function(e) {
-    currentPoolx = getRandomPool(8)
+    if(e.data[0] == 'pause') {
+        clearInterval(id1);
+        return;
+    }
+    
     max += e.data[0]
     seed = e.data[2]
     crafts = e.data[3]
-    function x() {
-    currentPool = currentPoolx.next().value
-    //console.log(currentPool);
-    let id = get_result(currentPool, str2seed(seed))
-    tries += 1
-    postMessage(["all", 1])
-    if (unexisting.includes(id) || crafts[id].length >= 4) {
-        return
-    }
-    if (!crafts[id].includes(currentPool)) {
-        if (crafts[id].length >= 4) {
-            return
-        }
-        postMessage(1)
-        found += 1
-        //if (tries > max) {
-        //    self.clearInterval(id1)
-        //    postMessage("end")
-       // }
-        postMessage(["item", id, currentPool])
-        crafts[id].push(currentPool)
-    }}
-    let id1 = setInterval(x, 0.5)
+    id1 = setInterval(x, 0.5)
 
     /*if (tries >= tries_limit || done(crafts, 4)) {
         if (done(crafts, 4)) {
