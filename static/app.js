@@ -5,7 +5,6 @@ import { showModalError, showModalSuccess, swap, removeEveryNotFirstChildOfEleme
 
 // Load some stuff and start searching for recipes
 var app = new App();
-app.startWorker();
 
 // When page is loaded show all items
 window.onload = flush_ui(true);

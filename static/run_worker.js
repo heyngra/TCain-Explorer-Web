@@ -2151,7 +2151,7 @@ function x() {
     let currentPool = currentPoolx.next().value
     let id = get_result(currentPool, str2seed(seed))
     tries += 1
-    if (unexisting.includes(id) || crafts[id].length >= 10 || crafts[id].includes(currentPool)) {
+    if (unexisting.includes(id) || crafts[id] == undefined || crafts[id].length >= 10 || crafts[id].includes(currentPool)) {
         postMessage(['not_found'])
     } else {
         found += 1

@@ -17,32 +17,37 @@ export class App
         this.worker = new Worker("static/run_worker.js");
         this.stats = document.getElementById("stats")
         this.#fetch();
-        this.#hardcodeCrafts();
-        this.#deleteNotExistingRecipes();
-        this.#setPossibleOptions();
     }
 
     #fetch()
     {
-        fetch('https://tcain.heyn.live/db?seed='+this.findGetParameter("seed").substring(0, 4)+this.findGetParameter("seed").substring(4, 8)+"&auth_id="+this.auth_id, {
+        fetch('https://tcain.heyn.live/db?seed='+this.findGetParameter("seed")+"&auth_id="+this.auth_id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
         }).then(response => response.json()).then(data => {
-            this.crafts = JSON.parse(data["arr"])
-            if (!(this.crafts == {})) {
+            if(data['arr'].constructor.name == 'String') {
+                data['arr'] = JSON.parse(data['arr']);
+            }
+            this.crafts = data['arr'];
+            if (!jQuery.isEmptyObject(this.crafts)) {
                 this.button = false;
             }
-            this.found_recipes = 0;
-            for (const [key, value] of Object.entries(crafts)) {
-                for (x of value) {
+            for (const [key, value] of Object.entries(this.crafts)) {
+                for (let x of value) {
                     this.found_recipes += 1
                 }
             }
-            showModalSuccess("Imported from web!" + "\n" + "Found " + this.found_recipes + " recipes");
-        }).catch(error => {
-            showModalError(error);
+            showModalSuccess("Imported from web!" + "<br>" + "Found " + this.found_recipes + " recipes");
+        }).catch(reason => {
+            console.log(reason);
+            showModalError('Something went wrong and we couldn\'t download recipes from the server');
+        }).finally(() => {
+            this.#hardcodeCrafts();
+            this.#deleteNotExistingRecipes();
+            this.#setPossibleOptions();
+            this.startWorker();
         });
     }
 
