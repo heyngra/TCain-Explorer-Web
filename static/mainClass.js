@@ -101,7 +101,7 @@ export class App
     {
         let started = false;
         this.worker.onmessage = event => {
-            if (this.found_recipes >= 1999 && !started && this.button) {
+            if (this.found_recipes >= 4999 && !started && this.button) {
                 $('#send').show();
                 started = true;
             }
