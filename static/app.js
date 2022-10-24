@@ -7,7 +7,12 @@ import { showModalError, showModalSuccess, swap, removeEveryNotFirstChildOfEleme
 var app = new App();
 
 // When page is loaded show all items
-window.onload = flush_ui(true);
+window.onload = function(){
+    flush_ui(true);
+    if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+        setTimeout(function(){showModalError("<a style=\"text-decoration: none !important; color: red !important\" href=\"https://github.com/heyngra/TCain-Explorer-Web/issues/4\">You are using Firefox, which does NOT support this site.</a>")}, 2000)
+    }
+};
 
 // Adding some events to things
 $("#search").on("keyup", function() {
