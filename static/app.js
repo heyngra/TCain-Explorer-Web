@@ -83,7 +83,7 @@ function send() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"seed": app.seed, "auth_id": app.auth_id, "arr": JSON.stringify(app.crafts)})
+        body: JSON.stringify({"seed": app.seed.replace(/ /g, ''), "auth_id": app.auth_id, "arr": JSON.stringify(app.crafts)})
     })
     .then(function() {
         showModalSuccess("Recipes successfully send to server");
