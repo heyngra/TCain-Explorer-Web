@@ -32,7 +32,7 @@ export class App
                 data['arr'] = JSON.parse(data['arr']);
             }
             this.crafts = data['arr'];
-            if (!jQuery.isEmptyObject(this.crafts)) {
+            if (!jQuery.isEmptyObject(this.crafts) && this.crafts != {}) {
                 this.button = false;
             }
             for (const [key, value] of Object.entries(this.crafts)) {
