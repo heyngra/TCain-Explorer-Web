@@ -16,6 +16,7 @@ export class App
         this.auth_id = generate_random_string(24);
         this.worker = new Worker("static/run_worker.js");
         this.stats = document.getElementById("stats")
+        this.firefox = (navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 && navigator.userAgent && navigator.userAgent.indexOf('CriOS') == -1 && navigator.userAgent.indexOf('FxiOS') == -1)) // firefox is used here as as shorter term for a browser that requires extra support for event.path, see https://github.com/heyngra/TCain-Explorer-Web/issues/4
         this.#fetch();
     }
 
@@ -31,7 +32,7 @@ export class App
                 data['arr'] = JSON.parse(data['arr']);
             }
             this.crafts = data['arr'];
-            if (!jQuery.isEmptyObject(this.crafts)) {
+            if (!jQuery.isEmptyObject(this.crafts) && this.crafts != {}) {
                 this.button = false;
             }
             for (const [key, value] of Object.entries(this.crafts)) {

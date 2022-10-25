@@ -9,9 +9,7 @@ var app = new App();
 // When page is loaded show all items
 window.onload = function(){
     flush_ui(true);
-    if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-        setTimeout(function(){showModalError("<a style=\"text-decoration: none !important; color: red !important\" href=\"https://github.com/heyngra/TCain-Explorer-Web/issues/4\">You are using Firefox, which does NOT support this site.</a>")}, 2000)
-    } else if (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 && navigator.userAgent && navigator.userAgent.indexOf('CriOS') == -1 && navigator.userAgent.indexOf('FxiOS') == -1) {
+    if (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 && navigator.userAgent && navigator.userAgent.indexOf('CriOS') == -1 && navigator.userAgent.indexOf('FxiOS') == -1) {
         setTimeout(function(){showModalError("<a style=\"text-decoration: none !important; color: red !important\" href=\"https://github.com/heyngra/TCain-Explorer-Web/issues/4\">You are using Safari, which does NOT support this site.</a>")}, 2000)   
     } // check if browser is safari
 };
@@ -109,9 +107,17 @@ function send() {
  */
 function getRecipes(event) {
     event.target.innerHTML = '(Refresh)';
-    removeEveryNotFirstChildOfElement(event.path[2]);
+    let paths = (app.firefox) ? [] : event.path; 
+    if (app.firefox) { // Support for Firefox and Safari, check https://github.com/heyngra/TCain-Explorer-Web/issues/4
+        let target = event.target;
+        while (target.parentNode != null) {
+            paths.push(target);
+            target = target.parentNode;
+	    }
+    }
+    removeEveryNotFirstChildOfElement(paths[2]);
 
-    let header = event.path[1];
+    let header = paths[1];
     let itemId = event.target.id;
     if(app.unexisting.includes(parseInt(itemId))) {
         insertInfoAfterElement('This item has no recipes', header);
