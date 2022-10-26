@@ -9,9 +9,6 @@ var app = new App();
 // When page is loaded show all items
 window.onload = function(){
     flush_ui(true);
-    if (navigator.vendor && navigator.vendor.indexOf('Apple') > -1 && navigator.userAgent && navigator.userAgent.indexOf('CriOS') == -1 && navigator.userAgent.indexOf('FxiOS') == -1) {
-        setTimeout(function(){showModalError("<a style=\"text-decoration: none !important; color: red !important\" href=\"https://github.com/heyngra/TCain-Explorer-Web/issues/4\">You are using Safari, which does NOT support this site.</a>")}, 2000)   
-    } // check if browser is safari
 };
 
 // Adding some events to things
