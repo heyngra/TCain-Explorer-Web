@@ -104,7 +104,7 @@ function send() {
  */
 function getRecipes(event) {
     event.target.innerHTML = '(Refresh)';
-    let paths = (app.firefox) ? [] : event.path; 
+    let paths = (app.firefox) ? [] : event.composedPath(); 
     if (app.firefox) { // Support for Firefox and Safari, check https://github.com/heyngra/TCain-Explorer-Web/issues/4
         let target = event.target;
         while (target.parentNode != null) {
